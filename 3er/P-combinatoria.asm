@@ -7,29 +7,49 @@
 org 100h
 .model smail
 
-;variables
+;variables ----------------------------------------------------------------
 .data
-
-obDato db ?
+obDato db ?   
 obNumero db ?
+numero db ?
 
-txt dw 'Ingresa los datos solicitados con la expresion',10,13,'$'
+
+
+
+Iterador db ?
+iteradorFor db ?
+
+Instrucciones dw 'Ingresa los datos solicitados en la expresion                       ',10,13,'$'
+Instrucciones2 d 'recuerda que M tiene que ser mayor que N                            ',10,13,'$'
+
+
+p1 dw ' n       m!                                                         ',10,13,'$'
+p2 dw 'V = ------------                                                    ',10,13,'$'
+p3 dw ' m    ( m-n )!                                                      ',10,13,'$'
+
+errUsu1 dw 'Hubo un error de su parte, no siguio las instrucciones correctamente',10,13,'$'
+errUsu2 dw 'Preciona una tecla para continuar: ',10,13,'$'
+
+endl dw '.                                                                   ',10,13,'$'
 
 RFactorial dw ?
-numero db ?
-      
+
+
 m db ?
 n db ? 
-Fm dw ?
-Fn dw ?  
-Rsuma dw ?
-Rdivvicion dw ?
+Rresta db ?
 
-;codigo
+
+Fm dw ?
+FRresta dw ?
+
+Rdivicion dw ?
+
+;codigo ----------------------------------------------------------------
 .code
 
-
-mover macro x y
+; macros ----------------------------------------------------------------
+mover macro y, x
     mov ah, 02
     mov bh, 00
     mov dl, x
@@ -38,7 +58,7 @@ mover macro x y
 endm
 
 figuras macro color, c, d
-    mov ah, 02
+    mov ah, 06
     mov bh, color
     mov cx, c
     mov dx, d
@@ -57,7 +77,6 @@ IngresaNumero macro
     mov obNumero, al
 endm
     
-    
 Imprimir8 macro dato
     mov ah, 02
     mov dl, dato
@@ -71,68 +90,214 @@ Imprimir16 macro dato
 endm
 
 Inicializar0 macro
-               
     mov ax, 000
     mov bx, 000
     mov cx, 000
     mov dx, 000
     
-
 endm
 
 
-factorial macro numero
-    Inicializar0
-    
-    mov cl, numero
-    mov bl, 1
-    mov al, 1
-    
-    inicioFact:
-        mul bl
-        add bl, 1 
-    FinFac:
-        loop InicioFact:
-    
-    mov RFactorial, ax
-    
-endm
-    
-
-
-mov cx, 10
-mov bl, 30h 
-
-
+; Inicio de la ejecucion del programa -------------------------------
 inicio:
 
-factorial 5
+ReiniciarPprograma:
+figuras 0Fh, 0000h, 184fh
+mov iterador, 0
+mov iteradorFor, 0
+mov m, 0
+mov n, 0
 
+Inicializar0
 
+mover 0000h , 0000h
 
-
-
-
-
-      
-      
-      
-salir:
-
-
-
-
-
-
-; imprimir una cadena de texto
 mov ax, @data
 mov ds, ax
-mov dx, offset txt
+mov dx, offset endl
 mov ah, 09
 int 21h
 
 
+; imprimiendo formula -------------------------------------------
+ImprimiendoFormula:
+add IteradorFor, 1
+
+mov ax, @data
+mov ds, ax
+mov dx, offset p1
+mov ah, 09
+int 21h
+
+mov ax, @data
+mov ds, ax
+mov dx, offset p2
+mov ah, 09
+int 21h
+
+mov ax, @data
+mov ds, ax
+mov dx, offset p3
+mov ah, 09
+int 21h
+
+cmp IteradorFor, 1
+je PosFormula1:;jumpo, ecual
+jne PosFormula2:;jump no ecua
 
 
 
+PosFormula1:
+
+mov ax, @data
+mov ds, ax
+mov dx, offset endl
+mov ah, 09
+int 21h
+
+mov ax, @data
+mov ds, ax
+mov dx, offset Instrucciones
+mov ah, 09
+int 21h
+mov ax, @data
+mov ds, ax
+mov dx, offset Instrucciones2
+mov ah, 09
+int 21h
+
+mov ax, @data
+mov ds, ax
+mov dx, offset endl
+mov ah, 09
+int 21h
+
+
+jmp ImprimiendoFormula:
+
+PosFormula2:
+
+; ingresando numero, N y M respectivamente --------------------------
+
+;ingresando dato N
+mover 08h, 02h  
+IngresaNumero 
+mov al, obNumero
+mov n, al
+
+mover 0ah, 0bh
+Imprimir8 n
+
+;ingresando dato M
+mover 0ah, 02h  
+IngresaNumero
+mov al, obNumero
+mov m, al
+
+; compararndo si se cumple la condicional
+mov al, m
+cmp n, al
+jl continuarMNCorrectos:
+jnl errorUsuario:
+
+
+continuarMNCorrectos:
+mover 0ah, 09h
+Imprimir8 m
+mover 08h, 0ah
+Imprimir8 m
+
+
+; Iniciando los factoriales: -----------------------------------------------------------
+; factorial de m simple -----------------------------------------------------------
+mov al, m
+sub al, 30h
+mov numero, al
+jmp factorial:
+PrimerFactorial:
+mov bx,RFactorial 
+mov Fm, bx
+
+
+; factorial de la suma de m y n
+Inicializar0
+mov al, m
+sub al, n
+mov Rresta, al
+
+mov al, Rresta
+mov numero, al
+jmp factorial: 
+Segundofactorial:
+mov bx,RFactorial 
+mov FRresta, bx
+
+
+
+;mov ax, Fm
+;mov bx, FRresta
+;div bx
+
+
+
+
+
+
+
+
+; Fin de la ejecucion del programa -------------------------------
+jmp salir:
+
+
+; etiquetas del buble para el factorial -------------------------------
+
+
+
+factorial:
+
+Inicializar0
+add Iterador, 1
+mov cl, numero
+mov ax, 1
+mov bx, 1
+
+inicioFact:
+    mul bx
+    add bx, 1 
+FinFac:
+    loop InicioFact:
+    mov RFactorial, ax
+
+cmp Iterador, 1
+je PrimerFactorial:;jumpo, ecual
+jne Segundofactorial:;jump no ecual
+
+
+
+errorUsuario:
+mover 0, 0
+figuras 0ch, 0005h, 0044h
+
+mov ax, @data
+mov ds, ax
+mov dx, offset errUsu1
+mov ah, 09
+int 21h
+
+mov ax, @data
+mov ds, ax
+mov dx, offset errUsu2
+mov ah, 09
+int 21h
+
+ingresaDato
+jmp ReiniciarPprograma:
+
+
+
+
+
+
+
+salir:
 .exit
