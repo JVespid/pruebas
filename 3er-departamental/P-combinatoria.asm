@@ -20,7 +20,7 @@ Iterador db ?
 iteradorFor db ?
 
 Instrucciones dw 'Ingresa los datos solicitados en la expresion                       ',10,13,'$'
-Instrucciones2 d 'recuerda que M tiene que ser mayor que N                            ',10,13,'$'
+Instrucciones2 dw 'recuerda que M tiene que ser mayor que N                            ',10,13,'$'
 
 
 p1 dw ' n       m!                                                         ',10,13,'$'
@@ -42,6 +42,8 @@ Rresta db ?
 
 Fm dw ?
 FRresta dw ?
+
+Factorial32 dd ?
 
 Rdivicion dw ?
 
