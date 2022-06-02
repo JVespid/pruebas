@@ -1,5 +1,4 @@
-;2021350792                  
-  
+
 ;inicializando memoria en 0 
 
 mov ah, 2  

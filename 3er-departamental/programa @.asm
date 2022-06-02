@@ -19,7 +19,6 @@ i db ?
 
 Iterador db ?
 iteradorFor db ?
-                                               
 txt dw 'ingresa 5 letras                                     ',10,13,'$'
 error dw 'error no ingresaste una letra                        ',10,13,'$'
 
@@ -84,7 +83,6 @@ inicio:
 figuras 0Fh, 0000h, 184fh
 mover 0000h, 0000h
 
-         
 
 mov ax, @data
 mov ds, ax
@@ -107,15 +105,12 @@ IngresaDato
 
 mov al, obDato
 
-mov dato, al 
-@
-
- 
+mov dato, al
 
 cmp dato, 40h
 jne repetir:;jumpo, ecual
 je salir:;jump no ecua
- 
+
 
 
 err:
@@ -135,8 +130,6 @@ jmp inicio:
 
 
 salir:
- 
-
 mov ah, 06
 mov bh, 0e0h
 mov cx, 0000h

@@ -19,7 +19,6 @@ i db ?
 
 Iterador db ?
 iteradorFor db ?
-                                               
 txt dw 'ingresa 5 letras                                     ',10,13,'$'
 error dw 'error no ingresaste una letra                        ',10,13,'$'
 

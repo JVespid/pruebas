@@ -1,6 +1,3 @@
-; Bernardo Abel Lopez Sachez
-
-; 2021350477
 
 .model small 
 
@@ -8,10 +5,6 @@
 
 .code 
 
-   
-  
-            ; suma y resta
-             
 mov ah, 01
 int 21h    
 sub al, 30h 

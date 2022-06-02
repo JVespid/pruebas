@@ -1,7 +1,4 @@
 
-; Bernardo Abel Lopez Sachez
-
-; 2021350477
 
 ;programa
 org 100h

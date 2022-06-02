@@ -1,6 +1,4 @@
-; Bernardo Abel Lopez Sachez
 
-; 2021350477
 
 .model small 
 
