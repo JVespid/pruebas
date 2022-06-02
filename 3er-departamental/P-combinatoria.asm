@@ -9,9 +9,18 @@ org 100h
 
 ;variables ----------------------------------------------------------------
 .data
+;variables de macros:
 obDato db ?   
 obNumero db ?
+
+Factorial32 dd ?
+Factorial8dx dw ?
+
+
+
+
 numero db ?
+
 
 
 
@@ -44,10 +53,11 @@ FMAX dw ?
 FMDX dw ?
 FRresta dw ?
 
-Factorial32 dd ?
-Factorial8dx dw ?
 
 Rdivicion dw ?
+
+RdivicionMSG dw '    El resultado esta guardado en la variable Rdivicion             ',10,13,'$'
+
 
 
 ;codigo ----------------------------------------------------------------
@@ -254,20 +264,30 @@ mov Rdivicion, AX
 
 
 
+cmp 00ffh < Rdivicion
+jl resultadoImprimible:
+jnl resultadoNoImprimible:
 
 
-
-
-
-
-
-
+resultadoImprimible:
 
 
 
 ; Fin de la ejecucion del programa -------------------------------
 jmp salir:
 
+
+resultadoNoImprimible:
+
+mov ax, @data
+mov ds, ax
+mov dx, offset RdivicionMSG
+mov ah, 09
+int 21h
+
+
+; Fin de la ejecucion del programa -------------------------------
+jmp salir:
 
 ; etiquetas del buble para el factorial -------------------------------
 
