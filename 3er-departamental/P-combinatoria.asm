@@ -16,6 +16,9 @@ Factorial8dx dw ?
 
 
 numero db ?
+u db ?
+d db ?
+c db ?
 
 
 
@@ -259,13 +262,41 @@ mov Rdivicion, AX
 
 
 
+mover 09h, 12h
+Inicializar0
 
-cmp 00ffh < Rdivicion
+
+cmp Rdivicion, 00ffh
 jl resultadoImprimible:
 jnl resultadoNoImprimible:
 
 
 resultadoImprimible:
+
+
+
+mov ax, Rdivicion
+aam
+
+add al, 30h
+mov u, al
+mov al, ah
+aam
+
+add al, 30h
+mov d, al
+mov al, ah
+aam
+
+add al, 30h
+mov c, al
+
+Imprimir8 0f2h
+Imprimir8 1fh
+Imprimir8 c
+Imprimir8 d
+Imprimir8 u
+
 
 
 
@@ -275,6 +306,8 @@ jmp salir:
 
 resultadoNoImprimible:
 
+Imprimir8 0f2h
+Imprimir8 1fh
 mov ax, @data
 mov ds, ax
 mov dx, offset RdivicionMSG
