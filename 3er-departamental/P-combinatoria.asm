@@ -32,7 +32,7 @@ errUsu2 dw 'Preciona una tecla para continuar: ',10,13,'$'
 
 endl dw '.                                                                   ',10,13,'$'
 
-RFactorial dw ?
+Factorial8ax dw ?
 
 
 m db ?
@@ -40,12 +40,15 @@ n db ?
 Rresta db ?
 
 
-Fm dw ?
+FMAX dw ?
+FMDX dw ?
 FRresta dw ?
 
 Factorial32 dd ?
+Factorial8dx dw ?
 
 Rdivicion dw ?
+
 
 ;codigo ----------------------------------------------------------------
 .code
@@ -217,8 +220,10 @@ sub al, 30h
 mov numero, al
 jmp factorial:
 PrimerFactorial:
-mov bx,RFactorial 
-mov Fm, bx
+mov bx,Factorial8ax
+mov FMAX, bx
+mov dx, Factorial8dx
+mov FMDX, dx
 
 
 ; factorial de la suma de m y n
@@ -231,14 +236,27 @@ mov al, Rresta
 mov numero, al
 jmp factorial: 
 Segundofactorial:
-mov bx,RFactorial 
+mov bx,Factorial8ax
 mov FRresta, bx
 
 
 
-;mov ax, Fm
-;mov bx, FRresta
-;div bx
+; divicion entre un factorial de 32 bits y uno de 16 bits
+
+MOV DX,FMDX
+MOV AX,FMAX
+MOV BX,FRresta
+
+DIV BX
+
+mov Rdivicion, AX
+
+
+
+
+
+
+
 
 
 
@@ -268,7 +286,8 @@ inicioFact:
     add bx, 1 
 FinFac:
     loop InicioFact:
-    mov RFactorial, ax
+    mov Factorial8ax, ax
+    mov Factorial8dx, dx
 
 cmp Iterador, 1
 je PrimerFactorial:;jumpo, ecual
