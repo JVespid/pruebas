@@ -1,4 +1,7 @@
 
+; programa de resistencias en paralelo
+
+
 ;programa
 org 100h
 .model smail
@@ -198,13 +201,13 @@ codigo:
 ; color apagador        0f0h                0f                   1f               2f            3f             4f
 ;                                        0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
 ;cable 040h, 0103h, 0900h, 0000h        __________________________________________________________________________________;
-;marca 0                            ;1    ;              0                                                                ;
+;marca 0                            ;1    ;              (0)                                                              ;
 figuras 050h, 0103h, 0120h;         ;2    ;    ------------------------------
                                     ;3    ;    |                            
                                     ;4    ;    |                            
                                     ;5    ;    |                            
                                     ;6 0f ;    |                            
-                                    ;7    ;    | 1                          
+                                    ;7    ;    | (1)                        
                                     ;8    ;    |                            
                                     ;9    ;    |                            
 ;marca 1                            ;a    ;    |                            
@@ -215,24 +218,24 @@ apagador ;                          ;d    ;  *   *
 ;marca 2                            ;f    ;    *                            
 figuras 050h, continuarCable, 1503h ;0    ;    |                            
                                     ;1    ;    |                            
-                                    ;2 18 ;    | 2                          
+                                    ;2 18 ;    | (2)                        
                                     ;3    ;    |                            
                                     ;4    ;    |                            
 ;marca 3                            ;5    ;    ------------------------------
-figuras 050h, 1503h, 1520h          ;6    ;                3                                                              ;
+figuras 050h, 1503h, 1520h          ;6    ;                (3)                                                            ;
                                     ;7    ;                                                                               ;
                                     ;8    ;                                                                               ;
                                     ;     ________________________________________________________________________________;
-;marca A
-;marca B
-;marca B
-;marca C
-;marca D
-;marca E
-;marca F
-;marca G
-;marca H
-;marca I
+;marca 4
+;marca 5
+;marca 6
+;marca 7
+;marca 8
+;marca 9
+;marca 10
+;marca 11
+;marca 12
+;marca 13
 
 
 
