@@ -134,7 +134,7 @@ FinFac:
     mov Factorial16ax, ax
     mov Factorial16dx, dx
 
-: comparardo, para ver en cual etiqueta terminaria
+; comparardo, para ver en cual etiqueta terminaria
 cmp Iterador, 1
 je PrimerFactorial:
 jne factorialCMP2:
