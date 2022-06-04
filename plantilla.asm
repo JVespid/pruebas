@@ -57,6 +57,7 @@ endm
 IngresaNumero macro
     mov ah, 01
     int 21h
+    sub al, 30h
     mov obNumero, al
 endm
     
