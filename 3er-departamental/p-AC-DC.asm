@@ -67,6 +67,10 @@ errUsu2 dw 'Preciona una tecla para continuar:                                  
 
 endl dw '.                                                                       ',10,13,'$'
 
+formulaLinea0 dw 'La formula es la siguiente:',10,13,'$'
+formulaLinea1 dw 'R  = 1/R +1/R  ... +1/R',10,13,'$'
+formulaLinea2 dw ' T      1    2         n',10,13,'$'
+
 
 
 
@@ -258,7 +262,7 @@ codigo:
 ; color resistencia     060h
 ; color apagador        0f0h        
 ;                                    ;       0f                   1f               2f            3f             4f
-;                                        0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+;                                           0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
 ;cable 040h, 0103h, 0900h, 0000h        __________________________________________________________________________________;
 ;marca 0                            ;0    ;              (0)                                                              ;
 figuras 050h, 0103h, 0120h;         ;1    ;    -----------------------------
@@ -279,7 +283,8 @@ figuras 050h, continuarCable, 1503h ;e    ;    |
 ;                                   ;f    ;    |                            
 ;                                   ;0 18 ;    | (2)                        
 ;                                   ;1    ;    |                            
-;                                   ;2    ;    |                            
+;                                   ;2    ;    |
+;
 ;marca 3                            ;3    ;    -----------------------------
 figuras 050h, 1503h, 1520h          ;4    ;                (3)                                                            ;
 figuras 050h, 0120h, 0420h          ;5    ;                                                                               ;
@@ -375,6 +380,29 @@ Imprimir8 0f2h
 mover 0406h
 Imprimir8 54h
 
+
+
+; imprimiendo la formula
+mover 1104h
+mov ax, @data
+mov ds, ax
+mov dx, offset formulaLinea0
+mov ah, 09
+int 21h
+
+mover 1204h
+mov ax, @data
+mov ds, ax
+mov dx, offset formulaLinea1
+mov ah, 09
+int 21h
+
+mover 1304h
+mov ax, @data
+mov ds, ax
+mov dx, offset formulaLinea2
+mov ah, 09
+int 21h
 
 
 
@@ -563,6 +591,11 @@ Inicializar0
 
 mov bl, 1
 mov mutiplicarmayor, bl
+
+mov bl, numeroMayor
+mov numeroMayor1, bl
+
+
 
 mov bl, 1
 
@@ -795,27 +828,40 @@ loop InicioBucle2:
 
 mover 030bh
 
+mov al, DatoR21
 
-add DatoR11, DatoR21
-add DatoR11, DatoR31
-add DatoR11, DatoR41
-add DatoR11, DatoR51
-add DatoR11, DatoR61
+add DatoR11, al
+mov al, DatoR31
+
+add DatoR11, al
+mov al, DatoR41
+
+add DatoR11, al
+mov al, DatoR51
+
+add DatoR11, al
+
+mov al, DatoR61
+
+add DatoR11, al
 
 
 
-mov al, DatoR11
+mov al, DatoR11  
 
-add al, 30h
+aam
 mov u, al
 mov al, ah
-aam
 
-add al, 30h
+add u, 30h
+
+aam
 mov d, al
 mov al, ah
-aam
 
+add d, 30h
+
+mov al, ah
 add al, 30h
 mov c, al
 
@@ -828,22 +874,24 @@ Imprimir8 u
 
 mov al, numeroMayor1
 
-add al, 30h
+aam
 mov u, al
 mov al, ah
-aam
 
-add al, 30h
+add u, 30h
+
+aam
 mov d, al
 mov al, ah
-aam
 
+add d, 30h
+
+mov al, ah
 add al, 30h
 mov c, al
 
-Imprimir8 1fh
+
 Imprimir8 02fh
-Imprimir8 1fh
 
 
 
